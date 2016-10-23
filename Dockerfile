@@ -1,13 +1,15 @@
-FROM armv7/armhf-ubuntu:latest
+# Add Tini. Tini operates as a process subreaper for jupyter. This prevents
+# kernel crashes.
+from gw000/keras-full
+ENV TINI_VERSION v0.6.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
+RUN chmod +x /usr/bin/tini
+ENTRYPOINT ["/usr/bin/tini", "--"]
 
-RUN apt-get update
-RUN apt-get install -y python python-dev python-pip libffi-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev libssl-dev
+# Install Python and Basic Python Tools
+RUN apt-get install -y python python-dev python-distribute python-pip
+RUN pip install -r /srv/requirements.txt
 
-RUN pip install --upgrade pip
-RUN pip install libsass
-RUN pip install --upgrade setuptools
+EXPOSE 8888
+CMD ["jupyter", "notebook", "--port=8888", "--no-browser", "--ip=0.0.0.0"]
 
-RUN cd /srv
-ADD requirements.txt ./requirements.txt
-
-RUN pip install -r requirements.txt
