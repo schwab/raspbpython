@@ -3,7 +3,8 @@ Ubuntu based Python project dockerfile for raspberrypi.  This docker file was cr
 
 
 ## OpenBazaar server startup command
-Assuming the host has a folder /home/pi/OpenBazaar-Server with the openbazaar server files from github and that the  .openbazaar folder will be shared with the host.  This can be used as a convient way to transfer an existing store to the server.  Just copy the local copy of .openbazaar to the host server (/home/pi/.openbazaar) and when docker starts up it will use the volume to initiate with the existing store contents. 
+
+Assumes the host has a folder /home/pi/OpenBazaar-Server with the openbazaar server files from [github openbazaar-server](https://github.com/OpenBazaar/OpenBazaar-Server) and that the  home/pi/.openbazaar folder will be shared with the host.  This can be used as a convient way to transfer an existing store to the server.  Just copy your desktop version of the .openbazaar folder to the host server's (/home/pi/.openbazaar). Now, when docker starts up we use the -v (volume) to point docker's /root/.openbazaar folder to the host's. 
 
 ```
 
